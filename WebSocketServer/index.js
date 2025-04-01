@@ -77,3 +77,4 @@ wss.on("connection", async (ws, req) => {
     map.delete(id);
   });
 });
+console.log("WebSocket server running on ws://localhost:8802");

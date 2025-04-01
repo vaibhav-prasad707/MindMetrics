@@ -51,7 +51,7 @@ function Message() {
   useEffect(() => {
     if (chatId !== null) {
       //make a websocket connection here
-      let wss = new WebSocket(`wss://mindmate-ws.onrender.com?id=${chatId}`);
+      let wss = new WebSocket(`ws://localhost:8802?id=${chatId}`);
       wss.addEventListener("open", () => {
         console.log("Websocket connected");
         ws.current.send(JSON.stringify({ type: "client:connected" }));
@@ -129,6 +129,8 @@ function Message() {
   const handleClick = () => {
     setChat((prevchat) => [...prevchat, { message, own: true }]);
     console.log(message);
+    // console.log(ws);
+    
     ws.current?.send(
       JSON.stringify({
         type: "client:prompt",

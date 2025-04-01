@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const router = require("./routers/router.js");
 const connectDB = require("./db/connect.js");
 const { setupGeminiChat } = require("./gemini/chat.js");
+const mongoose = require("mongoose");
+
 
 dotenv.config();
 
@@ -28,9 +30,11 @@ app.use(router);
 
 const initServer = async () => {
   try {
-    const port = String(process.env.SERVER_PORT) || 8000;
-    await connectDB();
-    console.log("DB Connected");
+    const port = (process.env.SERVER_PORT) || 8000;
+    await mongoose
+    .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.error("MongoDB connection error:", err));
     // init gemini
     await setupGeminiChat();
 
